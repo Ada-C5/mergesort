@@ -1,24 +1,48 @@
 def mergesort(a)
-    # if the array size is 0|1 then the list is considered sorted, return sorted array
-    # split the list into two halves
-    # merge sort each half
-    # combine the sorted halves
+    # base case
+    if a.length < 2 && a.length > -1  
+      return a 
+    end 
+
+    left, right  = split_array(a)  
+
+    left = mergesort(left)
+    right = mergesort(right)
+    combine(left, right)
 end
 
 def split_array(a)
-    # find the middle index
-    # split the array in half - take a look at take and drop in the ruby docs, or use ranges
-    # return left and right halves of array as separate arrays - did you know a method can return multiple arrays? look it up
+
+    # if array length is odd 
+    if a.length % 2 == 1 
+      split_value = a.length / 2 
+      left = a.drop(split_value)
+      right = a.take(split_value)
+      return left, right 
+    end  
+
+    # if array length is even
+    if a.length % 2 == 0 
+      split_value = a.length / 2 
+      left = a.drop(split_value)
+      right = a.take(split_value)
+      return left, right 
+    end 
 end
 
 # precondition: a and b are sorted
 def combine(a, b)
-    # create a results array
-    # counters pointing to the index of the smallest elements in each array
-    # check that we have elements to compare
-        # push the smaller element onto the result array
-    # if there are elements left over in a, move them to result
-    # if there are elements left over in b, move them to result
+    result = []
+
+    while a.size > 0 && b.size > 0
+      result << if a[0] <= b[0]
+        a.shift
+      else
+        b.shift
+      end
+    end
+    
+    result.concat(a).concat(b)
 end
 
 # TEST IT
