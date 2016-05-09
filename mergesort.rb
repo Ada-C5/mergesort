@@ -1,27 +1,44 @@
 def mergesort(a)
-    # if the array size is 0|1 then the list is considered sorted, return sorted array
-    # split the list into two halves
-    # merge sort each half
-    # combine the sorted halves
+  if a.length <= 1
+    return a
+  end
+
+  left, right = split_array(a)
+
+  left = mergesort(left)
+  right = mergesort(right)
+
+  combine(left,right)
 end
 
 def split_array(a)
-    # find the middle index
-    # split the array in half - take a look at take and drop in the ruby docs, or use ranges
-    # return left and right halves of array as separate arrays - did you know a method can return multiple arrays? look it up
+  split_length = a.length/2
+  left = a.take(split_length)
+  right = a.drop(split_length)
+  return left, right
 end
 
-# precondition: a and b are sorted
 def combine(a, b)
-    # create a results array
-    # counters pointing to the index of the smallest elements in each array
-    # check that we have elements to compare
-        # push the smaller element onto the result array
-    # if there are elements left over in a, move them to result
-    # if there are elements left over in b, move them to result
+  results = []
+
+  until a[0] == nil || b[0] == nil do
+    if a[0] < b[0]
+      results << a.shift
+    elsif b[0] < a[0]
+      results << b.shift
+    else
+      results << a.shift
+    end
+  end
+
+  if a[0] == nil
+    (results << b).flatten!
+  elsif b[0] == nil
+    (results << a).flatten!
+  end
+return results
 end
 
-# TEST IT
 a = [6,23,53,1,2,5,62,61,33,21,14,6,23]
 a = a.shuffle
 puts "ORIGINAL \n" + a.to_s
